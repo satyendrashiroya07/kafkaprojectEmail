@@ -18,13 +18,13 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import com.kafka.kafkaprojectCore.ProductCreatedEvent;
 import com.kafka.kafkaprojectEmail.Error.NotRetryableException;
 import com.kafka.kafkaprojectEmail.Error.RetryableException;
 import com.kafka.kafkaprojectEmail.io.ProcessdEventEntity;
 import com.kafka.kafkaprojectEmail.io.ProcessedEventRepository;
 
 import jakarta.transaction.Transactional;
+import productEvent.ProductCreatedEvent;
 
 @Component
 @KafkaListener(topics="product-created-events-topic")
@@ -46,12 +46,7 @@ public class ProductCreatedEventHandler {
 			@Header("messageId") String messageId,
 			@Header(KafkaHeaders.RECEIVED_KEY) String messagekey)
 	{
-//		if(true) throw new NotRetryableException("An error took place. No need to consume this message again.");
-
-		LOGGER.info("Received a new event: " + productCreatedEvent.getTitle() + " with productId: "+productCreatedEvent.getProductId());
-		LOGGER.info("Product Details: Price "+ productCreatedEvent.getPrice() + " Quantity: " + productCreatedEvent.getQuantity());
-
-		// check if message already processed
+		LOGGER.info("Received a new event: " + productCreatedEvent.getName() + " with productId: "+productCreatedEvent.getProductId());
 
 		ProcessdEventEntity existingRecord = processedEventRepository.findByMessageId(messageId);
 		if(existingRecord != null) {
@@ -89,19 +84,18 @@ public class ProductCreatedEventHandler {
 			throw new NotRetryableException(ex);
 		}
 
-		//save data in database
 		try {
 
 			processedEventRepository.save(new ProcessdEventEntity(messageId, productCreatedEvent.getProductId()));
 
 			String emailBody = "Product Created:\n" +
-					"Title: " + productCreatedEvent.getTitle() + "\n" +
+					"Title: " + productCreatedEvent.getName() + "\n" +
 					"Price: " + productCreatedEvent.getPrice() + "\n" +
 					"Quantity: " + productCreatedEvent.getQuantity();
 
 			System.out.println("Email: "+productCreatedEvent.getEmail());
 			emailService.sendEmail(
-					productCreatedEvent.getEmail(),   // 👉 any email
+					productCreatedEvent.getEmail(),
 					"New Product Created",
 					emailBody
 			);
