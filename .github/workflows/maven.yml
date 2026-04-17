@@ -34,17 +34,6 @@ jobs:
       - name: Build common-service
         run: mvn clean install -DskipTests -f common-service/pom.xml
 
-      # 👇 Checkout orderEvent
-      - name: Checkout orderEvent
-        uses: actions/checkout@v4
-        with:
-          repository: satyendrashiroya07/orderEvent
-          path: orderEvent
-
-      # 👇 Build orderEvent
-      - name: Build orderEvent
-        run: mvn clean install -DskipTests -f orderEvent/pom.xml
-
       # 👇 Build email-service
       - name: Build email-service
         run: mvn -B package -DskipTests --file pom.xml

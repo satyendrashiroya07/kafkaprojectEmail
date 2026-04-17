@@ -24,7 +24,7 @@ import com.kafka.kafkaprojectEmail.io.ProcessdEventEntity;
 import com.kafka.kafkaprojectEmail.io.ProcessedEventRepository;
 
 import jakarta.transaction.Transactional;
-import productEvent.ProductCreatedEvent;
+import shiroya.productEvent.ProductCreatedEvent;
 
 @Component
 @KafkaListener(topics="product-created-events-topic")
