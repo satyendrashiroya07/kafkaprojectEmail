@@ -1,6 +1,7 @@
 package com.kafka.kafkaprojectEmail.Handler;
 
 import com.kafka.kafkaprojectEmail.EmailServices.EmailService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,7 +25,8 @@ import com.kafka.kafkaprojectEmail.io.ProcessdEventEntity;
 import com.kafka.kafkaprojectEmail.io.ProcessedEventRepository;
 
 import jakarta.transaction.Transactional;
-import productEvent.ProductCreatedEvent;
+import shiroya.productEvent.ProductCreatedEvent;
+
 
 @Component
 @KafkaListener(topics="product-created-events-topic")
@@ -56,7 +58,6 @@ public class ProductCreatedEventHandler {
 
 		String requestUrl = "http://localhost:8082/product/productName";
 
-		// exception handling
 		try
 		{
 			ResponseEntity<String> response = restTemplate.exchange(requestUrl,HttpMethod.GET,null,String.class);

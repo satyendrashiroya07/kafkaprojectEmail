@@ -36,7 +36,6 @@ public class OrderCreatedEvenHandler {
             "Quantity: " + orderCreatedEvent.getQuantity()+ "\n" +
             "Status: " + orderCreatedEvent.getStatus();
 
-    System.out.println("Email: " + orderCreatedEvent.getEmail());
         emailService.sendEmail(orderCreatedEvent.getEmail(),
                 "New Order Created",
                 emailBody
