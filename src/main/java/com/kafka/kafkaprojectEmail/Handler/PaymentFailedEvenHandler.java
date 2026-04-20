@@ -8,10 +8,11 @@ import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import shiroya.orderEvent.OrderEvent;
 import shiroya.paymentEvent.PaymentEvent;
 
 @Component
-@KafkaListener(topics="payment-failed1")
+@KafkaListener(topics="order-cancelled")
 public class PaymentFailedEvenHandler {
 
     public final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -23,7 +24,7 @@ public class PaymentFailedEvenHandler {
 
     @Transactional
     @KafkaHandler
-    public void handle(@Payload PaymentEvent paymentCreatedEvent) {
+    public void handle(@Payload OrderEvent paymentCreatedEvent) {
         LOGGER.info("Received a new event: " + paymentCreatedEvent.getOrderId() + " with productId: " + paymentCreatedEvent.getProductId());
 
         String emailBody = "Order Failed Due to some Payment Issue:\n" +
