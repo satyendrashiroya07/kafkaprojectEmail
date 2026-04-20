@@ -8,10 +8,11 @@ import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import shiroya.orderEvent.OrderEvent;
 import shiroya.paymentEvent.PaymentEvent;
 
 @Component
-@KafkaListener(topics="payment-success1")
+@KafkaListener(topics="order-confirmed")
 public class PaymentSuccessEvenHandler {
 
     public final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -23,7 +24,7 @@ public class PaymentSuccessEvenHandler {
 
     @Transactional
     @KafkaHandler
-    public void handle(@Payload PaymentEvent paymentCreatedEvent) {
+    public void handle(@Payload OrderEvent paymentCreatedEvent) {
         LOGGER.info("Received a new event: " + paymentCreatedEvent.getOrderId() + " with productId: " + paymentCreatedEvent.getProductId());
 
         String emailBody = "Order Details:\n" +
@@ -38,6 +39,5 @@ public class PaymentSuccessEvenHandler {
                 "New Order Created",
                 emailBody
         );
-
     }
 }
