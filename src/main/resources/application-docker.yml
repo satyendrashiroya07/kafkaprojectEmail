@@ -1,0 +1,51 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: kafkaprojectEmail
+
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: created-events
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5432/shiroyadb
+    username: postgres
+    password: shiroya
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: satyendrachaurasiya0749@gmail.com
+    password: yqwf womm ppiy jbxx
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
