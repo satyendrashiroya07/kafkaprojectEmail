@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.kafka</groupId>
-	<artifactId>kafkaprojectEmail</artifactId>
+	<artifactId>2063401emailService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kafkaprojectEmail</name>
 	<description>ProductsMicroServices</description>
