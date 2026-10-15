@@ -31,11 +31,14 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: satyendrachaurasiya0749@gmail.com
-    password: yqwf womm ppiy jbxx
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_APP_PASSWORD}
     properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 management:
   tracing:
