@@ -30,14 +30,27 @@ public class UserCreatedEvenHandler {
                            @Header(KafkaHeaders.RECEIVED_KEY) String messagekey) {
             LOGGER.info("Received a new event: " + userCreatedEvent.getId() + " with Email: " + userCreatedEvent.getUserEmail());
 
-            String emailBody = "User Created Successfully:\n" +
-                    "Name: " + userCreatedEvent.getUserName() +"\n"+
-                    "UserId:" + userCreatedEvent.getUserId();
-            ;
+
+            String emailBody =
+                    "Dear " + userCreatedEvent.getUserName() + ",\n\n" +
+                            "Welcome to ShiroyaECom!\n\n" +
+                            "We are pleased to inform you that your account has been " +
+                            "successfully registered on the ShiroyaECom portal.\n\n" +
+                            "You can now explore our platform and enjoy a seamless " +
+                            "shopping experience.\n\n" +
+                            "Your Registration Details:\n\n" +
+                            "User ID: " + userCreatedEvent.getUserId() + "\n" +
+                            "Registered Email: " + userCreatedEvent.getUserEmail() + "\n\n" +
+                            "Thank you for joining ShiroyaECom. We appreciate your trust " +
+                            "and look forward to serving you.\n\n" +
+                            "Best regards,\n" +
+                            "Team ShiroyaECom\n" +
+                            "Customer Support";
+
 
             System.out.println("Email: " + userCreatedEvent.getUserEmail());
             emailService.sendEmail(userCreatedEvent.getUserEmail(),
-                    "Created User",
+                    "Welcome to ShiroyaECom – Registration Successful",
                     emailBody
             );
 
